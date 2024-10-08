@@ -2,6 +2,10 @@
 Pulpo is a web application that allows users to track their multimedia content (such as movies, anime, books, video games, etc.) and their progress. It uses Django as the framework and SQLite as the database.
 
 # Setup for development
+0. *(optional)* Create Python environment:
+```sh
+python -m venv .venv
+```
 1. Install required packages:
 ```sh
 pip install -r requirements.txt
