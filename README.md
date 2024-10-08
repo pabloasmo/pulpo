@@ -5,6 +5,7 @@ Pulpo is a web application that allows users to track their multimedia content (
 0. *(optional)* Create Python environment:
 ```sh
 python -m venv .venv
+source .venv/bin/activate
 ```
 1. Install required packages:
 ```sh
