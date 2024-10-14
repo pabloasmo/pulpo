@@ -1,3 +1,11 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import ListView, DetailView
+from pulpo_app.models import Tipo, Contenido
 
-# Create your views here.
+class TipoListView(ListView):
+    model = Tipo
+
+class ContenidoListView(ListView):
+    model = Contenido
+
+class ContenidoDetailView(DetailView):
+    model = Contenido

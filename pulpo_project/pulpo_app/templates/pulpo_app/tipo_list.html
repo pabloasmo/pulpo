@@ -1,0 +1,8 @@
+{% block content %}
+<h2>Tipos</h2>
+<ul>
+    {% for tipo in object_list %}
+        <li><a href="{{ tipo.get_absolute_url }}">{{ tipo }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

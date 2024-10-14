@@ -1,0 +1,7 @@
+<h2>{{ object.titulo }}</h2>
+<p>{{ object.descripcion }}</p>
+<ul>
+    <li><p><b>Fecha estreno:</b> {{ object.fecha_estreno }}</p></li>
+    <li><p><b>Tipo:</b> {{ object.tipo }}</p></li>
+    <li><p><b>Generos:</b> {% for genero in object.generos.all %}{{ genero }} {% endfor %}</p></li>
+</ul>
