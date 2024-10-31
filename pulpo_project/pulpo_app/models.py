@@ -18,8 +18,8 @@ class Genero(models.Model):
     nombre = models.CharField(max_length=50, unique=True)
 
     class Meta:
-        verbose_name = 'Genero'
-        verbose_name_plural = 'Generos'
+        verbose_name = 'Género'
+        verbose_name_plural = 'Géneros'
 
     def __str__(self):
         return self.nombre

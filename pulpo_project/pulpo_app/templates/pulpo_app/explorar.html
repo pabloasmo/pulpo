@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Explorar</h2>
+<form action="{% url 'explorar' %}" method="GET">
+    <div class="input-group mb-3">
+        <input type="text" name="q" class="form-control" placeholder="Buscar contenido" aria-label="Buscar contenido" aria-describedby="button-addon2">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
+        </div>
+    </div>
+</form>
+{% if object_list %}
+<ul>
+    {% for obj in object_list %}
+        <li><a href="{% url 'contenido_detail' obj.pk %}">{{ obj.titulo }}</a></li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

@@ -1,8 +1,15 @@
+{% extends 'base.html' %}
+
 {% block content %}
 <h2>Contenido</h2>
-<ul>
+<div class="content-slider">
     {% for contenido in object_list %}
-        <li><a href="contenido/{{ contenido.id }}">{{ contenido }}</a></li>
+    <a href="{{ contenido.get_absolute_url }}{{ contenido.pk }}">
+        <div class="content-card">
+            <img src="{{ contenido.imagen }}" alt="{{ contenido.titulo }}" />
+        </div>
+    </a>
     {% endfor %}
-</ul>
+</div>
+<a href="{% url 'contenido_add' %}">Añadir contenido</a>
 {% endblock %}

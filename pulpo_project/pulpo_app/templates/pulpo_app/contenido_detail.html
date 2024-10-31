@@ -1,7 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <h2>{{ object.titulo }}</h2>
 <p>{{ object.descripcion }}</p>
 <ul>
-    <li><p><b>Fecha estreno:</b> {{ object.fecha_estreno }}</p></li>
+    <li><p><b>Fecha de estreno:</b> {{ object.fecha_estreno }}</p></li>
     <li><p><b>Tipo:</b> {{ object.tipo }}</p></li>
-    <li><p><b>Generos:</b> {% for genero in object.generos.all %}{{ genero }} {% endfor %}</p></li>
+    <li><p><b>Géneros:</b><ul>{% for genero in object.generos.all %}<li>{{ genero }}</li> {% endfor %}</ul></p></li>
 </ul>
+<a href="update/">Editar</a>
+<a href="delete/">Eliminar</a>
+{% endblock %}
