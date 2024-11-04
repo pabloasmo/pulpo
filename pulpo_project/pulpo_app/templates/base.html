@@ -21,7 +21,11 @@
             <a href="/"><i class="fa-solid fa-home"></i> Inicio</a>
             <a href="{% url 'explorar' %}"><i class="fa-solid fa-compass"></i> Explorar</a>
             <a href="{% url 'contenido_list' %}"><i class="fa-solid fa-book"></i> Contenido</a>
-            <a href="/login"><i class="fa-solid fa-user"></i> Cuenta</a>
+            {% if user.is_authenticated %}
+            <a href="/profile"><i class="fa-solid fa-user"></i> {{ user.username }}</a>
+            {% else %}
+            <a href="/login"><i class="fa-solid fa-user"></i> Iniciar sesión</a>
+            {% endif %}
         </nav>
         {% endblock %}
     </header>

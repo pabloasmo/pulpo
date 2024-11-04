@@ -128,3 +128,6 @@ class ListaUsuario(models.Model):
     
     def __str__(self):
         return f'{self.usuario} - {self.contenido}'
+
+class User:
+    pass

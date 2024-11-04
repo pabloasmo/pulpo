@@ -1,8 +1,15 @@
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
-from pulpo_app.models import Tipo, Contenido
+from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
+from pulpo_app.models import Tipo, Contenido
+from pulpo_app.decorators import redirect_if_logged_in
 
 class TipoListView(ListView):
     model = Tipo
@@ -43,3 +50,25 @@ class ExplorarView(ListView):
 
     def get_queryset(self):
         return Contenido.objects.filter(titulo__icontains=self.request.GET.get('q', ''))
+
+@redirect_if_logged_in
+def register_view(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            messages.success(request, 'Cuenta creada correctamente. Inicia sesión.')
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'pulpo_app/register.html', {'form': form})
+
+class CustomLoginView(LoginView):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect(reverse_lazy('profile'))
+        return super().dispatch(request, *args, **kwargs)
+
+@login_required
+def profile_view(request):
+    return render(request, 'pulpo_app/profile.html', {'user': request.user})
