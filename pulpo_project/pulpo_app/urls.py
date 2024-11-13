@@ -16,4 +16,5 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('register/', register_view, name='register'),
     path('profile/', profile_view, name='profile'),
+    path('test/', TemplateView.as_view(template_name='pulpo_app/test.html'), name='test')
 ]

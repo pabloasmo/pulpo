@@ -8,6 +8,8 @@
     <li><p><b>Tipo:</b> {{ object.tipo }}</p></li>
     <li><p><b>Géneros:</b><ul>{% for genero in object.generos.all %}<li>{{ genero }}</li> {% endfor %}</ul></p></li>
 </ul>
-<a href="update/">Editar</a>
-<a href="delete/">Eliminar</a>
+{% if user.is_authenticated %}
+    <a href="update/">Editar</a>
+    <a href="delete/">Eliminar</a>
+{% endif %}
 {% endblock %}

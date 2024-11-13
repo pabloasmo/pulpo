@@ -31,20 +31,6 @@
     margin-bottom: 10px;
 }
 
-.auth-form button {
-    width: 100%;
-    padding: 10px;
-    background-color: #921eb3;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.auth-form button:hover {
-    background-color: #722498;
-}
-
 .errorlist {
     color: red;
     list-style: none;
