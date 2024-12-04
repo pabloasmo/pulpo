@@ -1,5 +1,6 @@
 django
 django-extensions
+djangorestframework
 fontawesomefree
 PyMoe
 python-dotenv
