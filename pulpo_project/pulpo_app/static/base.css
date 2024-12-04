@@ -21,7 +21,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a:hover {
-    color: #23527c;
+    color: #ff00f2;
 }
 
 .container {
@@ -197,7 +197,7 @@ main {
     transform: scale(1);
 }
 
-a {
+/* a {
     color: #921eb3;
     text-decoration: none;
     background-image: linear-gradient(#921eb3, #921eb3);
@@ -211,9 +211,9 @@ a {
 a:hover, a:focus, a:active {
     background-size: 100% 0.1em;
     color: #921eb3;
-}
+} */
 
-input {
+input, textarea, select {
     border: 1px solid #333;
     border-radius: 5px;
     padding: 4px;
@@ -224,6 +224,7 @@ input {
 }
 
 button {
+    border: 1px solid #333;
     padding: 10px;
     background-color: #921eb3;
     color: #fff;
@@ -241,10 +242,40 @@ button:hover {
 
 button:active {
     background-color: #710c8d;
-    transform: scale(0.9);
+    transform: scale(0.95);
 }
 
-input[type="submit"] {
-    background-color: transparent !important;
+button[type="submit"] {
+    background-color: #1eb361;
 }
 
+button[type="submit"]:hover {
+    background-color: #49d37e;
+}
+
+button[type="submit"]:active {
+    background-color: #0d7e2b;
+}
+
+button[type="reset"] {
+    background-color: #eb1e1e;
+}
+
+button[type="reset"]:hover {
+    background-color: #f54d4d;
+}
+
+button[type="reset"]:active {
+    background-color: #8d0c0c;
+}
+
+button:disabled {
+    background-color: #c2c2c2;
+    color: #333;
+    cursor: not-allowed;
+}
+
+button:disabled:hover {
+    background-color: #c2c2c2;
+    transform: none;
+}
