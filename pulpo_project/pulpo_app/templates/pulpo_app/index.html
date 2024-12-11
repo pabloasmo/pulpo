@@ -5,30 +5,87 @@
 {% block title %}Pulpo{% endblock %}
 
 {% block content %}
-<div id="index-header">
+<div id="landing">
     <h1><i class="fab fa-octopus-deploy"></i> Pulpo</h1>
+    <h2>Rastrea y descubre<span class="sliding-words">
+        <div class="sliding-words-inner">
+            <span>películas<br /></span>
+            <span>series<br /></span>
+            <span>anime<br /></span>
+            <span>películas<br /></span>
+            <span>series<br /></span>
+            <span>anime<br /></span>
+        </div>
+    </span>con Pulpo.</h2>
+    <div id="index-explore">
+        <form action="{% url 'explorar' %}" method="GET">
+            <input type="text" name="q" class="form-control" placeholder="Buscar contenido" aria-label="Buscar contenido" aria-describedby="button-addon2">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+    </div>
+    <div class="feature-cards">
+        <a href="{% url 'explorar' %}">
+        <div class="feature">
+            <i class="fa-solid fa-compass"></i>
+            <div class="info">
+                <h3 class="title">Explora</h3>
+                <p class="description">Descubre tus nuevas obsesiones</p>
+            </div>
+        </div>
+        </a>
+        <a href="#">
+        <div class="feature">
+            <i class="fa-solid fa-users"></i>
+            <div class="info">
+                <h3 class="title">Comunidad</h3>
+                <p class="description">Conoce a personas con tus mismos gustos</p>
+            </div>
+        </div>
+        </a>
+        <a href="#">
+        <div class="feature">
+            <i class="fa-solid fa-heart"></i>
+            <div class="info">
+                <h3 class="title">Favoritos</h3>
+                <p class="description">Guarda tus contenidos favoritos</p>
+            </div>
+        </div>
+        </a>
+        <a href="#">
+        <div class="feature">
+            <i class="fa-solid fa-chart-pie"></i>
+            <div class="info">
+                <h3 class="title">Estadísticas</h3>
+                <p class="description">Lleva control de lo que más te gusta</p>
+            </div>
+        </div>
+        </a>
+    </div>
     <!-- <img src="{% static 'pulpo_app/pulpo.png' %}" alt="Pulpo logo"> -->
 </div>
-<div id="index-explore">
-    <form action="{% url 'explorar' %}" method="GET">
-        <input type="text" name="q" class="form-control" placeholder="Buscar contenido" aria-label="Buscar contenido" aria-describedby="button-addon2">
-        <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
-    </form>
-</div>
-<!-- <h2>Top semanal</h2>
-<div class="content-slider">
-    <div class="content-card"></div>
-    <div class="content-card"></div>
-    <div class="content-card"></div>
-    <div class="content-card"></div>
-    <div class="content-card"></div>
-</div>
-<h2>Agregado recientemente</h2>
-<div class="content-slider">
-    <div class="content-card"></div>
-    <div class="content-card"></div>
-    <div class="content-card"></div>
-    <div class="content-card"></div>
-    <div class="content-card"></div>
-</div> -->
+<script src="https://code.jquery.com/jquery-3.7.1.slim.js"></script>
+<script>
+    jQuery(document).ready(function($){
+        var animationDelay = 2000;
+        initHeadline();
+
+        function initHeadline() {
+            animateHeadline($('.cd-headline'));
+        }
+
+        function animateHeadline($headlines) {
+            $headlines.each(function(){
+                var headline = $(this);
+                setTimeout(function(){ hideWord( headline.find('.is-visible') ) }, animationDelay);
+            });
+        }
+
+        function hideWord($word) {
+            var nextWord = (!$word.is(':last-child')) ? $word.next() : $word.parent().children().eq(0);
+            $word.removeClass('is-visible').addClass('is-hidden');
+            nextWord.removeClass('is-hidden').addClass('is-visible');
+            setTimeout(function(){ hideWord(nextWord) }, animationDelay);
+        }
+    });
+</script>
 {% endblock %}
