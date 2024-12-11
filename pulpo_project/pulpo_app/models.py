@@ -55,47 +55,6 @@ class Contenido(models.Model):
     def __str__(self):
         return f'{self.titulo} ({self.tipo})'
 
-# class Pelicula(models.Model):
-#     contenido = models.OneToOneField(Contenido, on_delete=models.CASCADE, primary_key=True)
-#     duracion = models.IntegerField(help_text="Duración en minutos", null=True, blank=True)
-
-#     class Meta:
-#         verbose_name = 'Pelicula'
-#         verbose_name_plural = 'Peliculas'
-
-# class Serie(models.Model):
-#     contenido = models.OneToOneField(Contenido, on_delete=models.CASCADE, primary_key=True)
-#     temporadas = models.IntegerField(null=True, blank=True)
-#     episodios = models.IntegerField(null=True, blank=True)
-
-#     class Meta:
-#         verbose_name = 'Serie'
-#         verbose_name_plural = 'Series'
-
-# class Anime(models.Model):
-#     contenido = models.OneToOneField(Contenido, on_delete=models.CASCADE, primary_key=True)
-#     episodios = models.IntegerField(null=True, blank=True)
-
-#     class Meta:
-#         verbose_name = 'Anime'
-#         verbose_name_plural = 'Animes'
-
-# class Manga(models.Model):
-#     contenido = models.OneToOneField(Contenido, on_delete=models.CASCADE, primary_key=True)
-#     capitulos = models.IntegerField(null=True, blank=True)
-
-#     class Meta:
-#         verbose_name = 'Manga'
-#         verbose_name_plural = 'Mangas'
-
-# class Libro(models.Model):
-#     contenido = models.OneToOneField(Contenido, on_delete=models.CASCADE, primary_key=True)
-#     paginas = models.IntegerField(null=True, blank=True)
-
-#     class Meta:
-#         verbose_name = 'Libro'
-#         verbose_name_plural = 'Libros'
-
 class ListaUsuario(models.Model):
     ESTADOS = (
         ('PL', 'Planeado'),
