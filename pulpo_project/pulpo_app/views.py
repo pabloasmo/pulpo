@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -57,8 +58,9 @@ def register_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            login(request, user)
             messages.success(request, 'Cuenta creada correctamente. Inicia sesión.')
-            return redirect('login')
+            return redirect('profile')
     else:
         form = UserCreationForm()
     return render(request, 'pulpo_app/register.html', {'form': form})
