@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Comunidad - {% endblock %}
 
-{% block content %}v
+{% block content %}
   <h2>Todos los Comentarios</h2>
 
   {% if comentarios %}
@@ -13,7 +13,6 @@
           <p>{{ comentario.comentario }}</p>
           <p><small>Publicado el: {{ comentario.fecha_creacion|date:"d/m/Y H:i" }}</small></p>
           
-          <!-- Mostrar el botón de eliminación solo si el comentario pertenece al usuario autenticado -->
           {% if comentario.usuario == request.user %}
             <form action="{% url 'eliminar_comentario' comentario.pk %}" method="post">
               {% csrf_token %}
