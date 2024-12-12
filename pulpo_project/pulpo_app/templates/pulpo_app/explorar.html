@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block title %}Explorar - {% endblock %}
 
 {% block content %}
 <h2>Explorar</h2>
@@ -14,6 +15,7 @@
     <a href="/contenido/{{ contenido.pk }}">
         <div class="content-card">
             <img src="{{ contenido.imagen }}" alt="{{ contenido.titulo }}" />
+            <div>{{ contenido.titulo }}</div>
         </div>
     </a>
     {% endfor %}

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block title %}Comentarios de "{{ contenido.titulo }}" - {% endblock %}
 
 {% block content %}
 <h2>Comunidad - <a href="{% url 'contenido_detail' contenido.pk %}">{{ contenido.titulo }}</a></h2>
