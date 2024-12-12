@@ -14,8 +14,8 @@
     {% for contenido in object_list %}
     <a href="/contenido/{{ contenido.pk }}">
         <div class="content-card">
+            <div class="title">{{ contenido.titulo }}</div>
             <img src="{{ contenido.imagen }}" alt="{{ contenido.titulo }}" />
-            <div>{{ contenido.titulo }}</div>
         </div>
     </a>
     {% endfor %}
