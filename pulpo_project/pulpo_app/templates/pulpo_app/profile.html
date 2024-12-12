@@ -38,7 +38,7 @@
         <form method="post" action="" style="display: inline;">
             {% csrf_token %}
             <input type="hidden" name="lista_usuario_id" value="{{ item.id }}">
-            {{ item.contenido.titulo }}
+            <a href="/contenido/{{ item.contenido.id }}">{{ item.contenido.titulo }}</a>
             {% if item.puntuacion %}
             - Puntuación: {{ item.puntuacion }}
             {% endif %}
