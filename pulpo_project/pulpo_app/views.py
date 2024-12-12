@@ -52,10 +52,10 @@ class ContenidoUpdateView(LoginRequiredMixin, UpdateView):
 
 class ContenidoDeleteView(LoginRequiredMixin, DeleteView):
     model = Contenido
-    success_url = reverse_lazy('contenido_list')
+    success_url = reverse_lazy('explorar')
 
     def get_success_url(self):
-        return reverse_lazy('contenido_list')
+        return reverse_lazy('explorar')
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_staff:
