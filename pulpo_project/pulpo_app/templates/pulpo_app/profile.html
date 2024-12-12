@@ -3,12 +3,61 @@
 {% block content %}
 <h2>Mi perfil</h2>
 <p>Nombre de usuario: {{ user.username }}</p>
-<p>Correo electrónico: {{ user.email }}</p>
 <p>Fecha de registro: {{ user.date_joined }}</p>
-<p>Ultima sesión: {{ user.last_login }}</p>
+<p>Última sesión: {{ user.last_login }}</p>
 
 <form action="{% url 'logout' %}" method="post">
     {% csrf_token %}
     <button type="submit">Cerrar sesión</button>
 </form>
+
+<h3>Agregar contenido</h3>
+<form method="post" action="">
+    {% csrf_token %}
+    <label for="contenido_id">Seleccionar contenido:</label>
+    <select id="contenido_id" name="contenido_id" required>
+        {% for contenido in contenidos %}
+        <option value="{{ contenido.id }}">{{ contenido.titulo }}</option>
+        {% endfor %}
+    </select>
+    <label for="estado">Estado:</label>
+    <select id="estado" name="estado">
+        <option value="PL">Planeado</option>
+        <option value="WT">En progreso</option>
+        <option value="CM">Completado</option>
+        <option value="AB">Abandonado</option>
+    </select>
+    <button type="submit">Agregar contenido</button>
+</form>
+
+<h3>Mis contenidos</h3>
+<ul>
+    {% for item in lista_usuario %}
+    <li>
+        <form method="post" action="" style="display: inline;">
+            {% csrf_token %}
+            <input type="hidden" name="lista_usuario_id" value="{{ item.id }}">
+            {{ item.contenido.titulo }}
+            {% if item.puntuacion %}
+            - Puntuación: {{ item.puntuacion }}
+            {% endif %}
+            <button type="submit" name="delete" value="true">Eliminar</button>
+        </form>
+        <form method="post" action="" style="display: inline;">
+            {% csrf_token %}
+            <input type="hidden" name="lista_usuario_id" value="{{ item.id }}">
+            <label for="estado_{{ item.id }}">Estado:</label>
+            <select id="estado_{{ item.id }}" name="estado">
+                <option value="PL" {% if item.estado == "PL" %}selected{% endif %}>Planeado</option>
+                <option value="WT" {% if item.estado == "WT" %}selected{% endif %}>En progreso</option>
+                <option value="CM" {% if item.estado == "CM" %}selected{% endif %}>Completado</option>
+                <option value="AB" {% if item.estado == "AB" %}selected{% endif %}>Abandonado</option>
+            </select>
+            <label for="puntuacion_{{ item.id }}">Puntuación:</label>
+            <input type="number" id="puntuacion_{{ item.id }}" name="puntuacion" value="{{ item.puntuacion }}" min="0" max="10">
+            <button type="submit">Guardar cambios</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
 {% endblock %}

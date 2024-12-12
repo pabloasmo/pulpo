@@ -70,13 +70,6 @@ class ListaUsuario(models.Model):
     comentario = models.TextField(null=True, blank=True)
     progreso = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
 
-    # tiempo_visto = models.IntegerField(null=True, blank=True)
-    # episodios_vistos = models.IntegerField(null=True, blank=True)
-    # temporadas_vistas = models.IntegerField(null=True, blank=True)
-    # volumenes_leidos = models.IntegerField(null=True, blank=True)
-    # capitulos_leidos = models.IntegerField(null=True, blank=True)
-    # paginas_leidas = models.IntegerField(null=True, blank=True)
-
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['usuario', 'contenido'], name='unique_user_content')
@@ -87,6 +80,19 @@ class ListaUsuario(models.Model):
     
     def __str__(self):
         return f'{self.usuario} - {self.contenido}'
+    
+class Comentario(models.Model):
+    contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='comentarios')
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    comentario = models.TextField()
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Comentario'
+        verbose_name_plural = 'Comentarios'
+
+    def __str__(self):
+        return f'Comentario de {self.usuario} sobre {self.contenido}'
 
 class User:
     pass

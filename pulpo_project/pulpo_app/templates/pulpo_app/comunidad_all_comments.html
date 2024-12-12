@@ -1,0 +1,31 @@
+<!-- comunidad_all_comments.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Todos los Comentarios</h2>
+
+  {% if comentarios %}
+    <div class="comentarios">
+      {% for comentario in comentarios %}
+        <div class="comentario">
+          <h3>Comentario sobre: <a href="{{ comentario.contenido.pk }}">{{ comentario.contenido.titulo }}</a></h3>
+          <p><strong>{{ comentario.usuario.username }}</strong> dijo:</p>
+          <p>{{ comentario.comentario }}</p>
+          <p><small>Publicado el: {{ comentario.fecha_creacion|date:"d/m/Y H:i" }}</small></p>
+          
+          <!-- Mostrar el botón de eliminación solo si el comentario pertenece al usuario autenticado -->
+          {% if comentario.usuario == request.user %}
+            <form action="{% url 'eliminar_comentario' comentario.pk %}" method="post">
+              {% csrf_token %}
+              <button type="submit">Eliminar comentario</button>
+            </form>
+          {% endif %}
+        </div>
+        <hr>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No hay comentarios aún.</p>
+  {% endif %}
+{% endblock %}

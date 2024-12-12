@@ -2,19 +2,25 @@
 
 {% block content %}
 <h2>Explorar</h2>
-<form action="{% url 'explorar' %}" method="GET">
-    <div class="input-group mb-3">
-        <input type="text" name="q" class="form-control" placeholder="Buscar contenido" aria-label="Buscar contenido" aria-describedby="button-addon2">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
-        </div>
-    </div>
+
+<!-- Barra de búsqueda -->
+<form method="get" action="{% url 'explorar' %}">
+    <input type="text" name="q" placeholder="Buscar contenido..." value="{{ request.GET.q }}">
+    <button type="submit">Buscar</button>
 </form>
-{% if object_list %}
-<ul>
-    {% for obj in object_list %}
-        <li><a class="media-link" href="{% url 'contenido_detail' obj.pk %}">{{ obj.titulo }}</a></li>
+
+<div class="content-slider">
+    {% for contenido in object_list %}
+    <a href="/contenido/{{ contenido.pk }}">
+        <div class="content-card">
+            <img src="{{ contenido.imagen }}" alt="{{ contenido.titulo }}" />
+        </div>
+    </a>
     {% endfor %}
-</ul>
+</div>
+
+{% if user.is_staff %}
+<a href="{% url 'contenido_add' %}">Añadir contenido</a>
 {% endif %}
+
 {% endblock %}

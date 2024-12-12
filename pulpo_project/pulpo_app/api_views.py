@@ -36,13 +36,13 @@ class ContenidoUpdateView(UpdateView):
 
 class ContenidoDeleteView(DeleteView):
     model = Contenido
-    success_url = reverse_lazy('contenido_list')
+    success_url = reverse_lazy('explorar')
 
     # def get_queryset(self):
     #     return Contenido.objects.filter(pk=self.request)
 
     def get_success_url(self):
-        return reverse_lazy('contenido_list')
+        return reverse_lazy('explorar')
 
 class ExplorarView(ListView):
     model = Contenido

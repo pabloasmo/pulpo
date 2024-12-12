@@ -6,9 +6,27 @@
 <ul>
     <li><p><b>Fecha de estreno:</b> {{ object.fecha_estreno }}</p></li>
     <li><p><b>Tipo:</b> {{ object.tipo }}</p></li>
-    <li><p><b>Géneros:</b><ul>{% for genero in object.generos.all %}<li>{{ genero }}</li> {% endfor %}</ul></p></li>
+    <li><p><b>Géneros:</b><ul>{% for genero in object.generos.all %}<li>{{ genero }}</li>{% endfor %}</ul></p></li>
 </ul>
+
+<a href="{% url 'comunidad' pk=object.pk %}">Ver comentarios y agregar comentario</a>
+
 {% if user.is_authenticated %}
+    <form method="post" action="{% url 'profile' %}">
+        {% csrf_token %}
+        <input type="hidden" name="contenido_id" value="{{ object.id }}">
+        <label for="estado">Estado:</label>
+        <select id="estado" name="estado">
+            <option value="PL">Planeado</option>
+            <option value="WT">En progreso</option>
+            <option value="CM">Completado</option>
+            <option value="AB">Abandonado</option>
+        </select>
+        <button type="submit">Agregar a mi lista</button>
+    </form>
+{% endif %}
+
+{% if user.is_staff %}
     <button onclick="location.href='{% url 'contenido_update' object.pk %}'">Editar</button>
     <button onclick="location.href='{% url 'contenido_delete' object.pk %}'">Eliminar</button>
 {% endif %}

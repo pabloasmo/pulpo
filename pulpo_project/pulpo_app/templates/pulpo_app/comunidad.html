@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Comunidad - <a href="{% url 'contenido_detail' contenido.pk %}">{{ contenido.titulo }}</a></h2>
+
+<div class="comentarios">
+    {% for comentario in comentarios %}
+    <div class="comentario">
+        <p><b>{{ comentario.usuario.username }}:</b></p>
+        <p>{{ comentario.comentario }}</p>
+        <p><small>Publicado el {{ comentario.fecha_creacion }}</small></p>
+    </div>
+    {% empty %}
+    <p>No hay comentarios aún. ¡Sé el primero en comentar!</p>
+    {% endfor %}
+</div>
+
+<h3>Agregar un comentario</h3>
+{% if request.user.is_authenticated %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Comentar</button>
+</form>
+{% else %}
+<p>Debes <a href="{% url 'login' %}">iniciar sesión</a> para comentar.</p>
+{% endif %}
+
+{% endblock %}
