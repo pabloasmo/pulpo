@@ -5,3 +5,4 @@ fontawesomefree
 PyMoe
 python-dotenv
 gunicorn
+requests
