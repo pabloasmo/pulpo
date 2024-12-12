@@ -21,3 +21,14 @@ python manage.py makemigrations
 ```sh
 python manage.py runserver
 ```
+
+# Custom management commands
+- Add movie: 
+```sh
+python manage.py add_movie https://www.themoviedb.org/movie/{movie_id}
+```
+
+- Add series:
+```sh
+python manage.py add_series https://www.themoviedb.org/tv/{series_id}
+```
