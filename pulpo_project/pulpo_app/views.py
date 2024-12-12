@@ -28,7 +28,7 @@ class ContenidoDetailView(DetailView):
 
 class ContenidoCreateView(LoginRequiredMixin, CreateView):
     model = Contenido
-    fields = ['tipo', 'titulo', 'descripcion', 'fecha_estreno', 'generos']
+    fields = ['tipo', 'titulo', 'descripcion', 'fecha_estreno', 'imagen', 'generos']
 
     def get_success_url(self):
         return reverse_lazy('contenido_detail', kwargs={'pk': self.object.pk})
@@ -40,7 +40,7 @@ class ContenidoCreateView(LoginRequiredMixin, CreateView):
 
 class ContenidoUpdateView(LoginRequiredMixin, UpdateView):
     model = Contenido
-    fields = fields = ['tipo', 'titulo', 'descripcion', 'fecha_estreno', 'generos']
+    fields = fields = ['tipo', 'titulo', 'descripcion', 'fecha_estreno', 'imagen', 'generos']
 
     def get_success_url(self):
         return reverse_lazy('contenido_detail', kwargs={'pk': self.object.pk})
