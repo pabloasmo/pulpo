@@ -16,12 +16,10 @@ from django.http import HttpResponseForbidden, Http404
 from rest_framework import viewsets
 from .models import Tipo, Genero, Autor, Contenido, ListaUsuario, Comentario
 from .serializers import TipoSerializer, GeneroSerializer, AutorSerializer, ContenidoSerializer, ListaUsuarioSerializer, ComentarioSerializer
+from django.db.models import Q
 
 class TipoListView(ListView):
     model = Tipo
-
-
-from django.db.models import Q
 
 class ContenidoDetailView(DetailView):
     model = Contenido
