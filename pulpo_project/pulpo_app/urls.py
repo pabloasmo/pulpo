@@ -15,7 +15,6 @@ router.register(r'comentarios', pulpo_views.ComentarioViewSet)
 urlpatterns = [
     path('', TemplateView.as_view(template_name='pulpo_app/index.html')),
     path('api/', include(router.urls)),
-    path('tipos/', pulpo_views.TipoListView.as_view(), name='tipos'),
     path('contenido/add/', pulpo_views.ContenidoCreateView.as_view(), name='contenido_add'),
     path('contenido/<pk>/', pulpo_views.ContenidoDetailView.as_view(), name='contenido_detail'),
     path('contenido/<pk>/delete/', pulpo_views.ContenidoDeleteView.as_view(), name='contenido_delete'),

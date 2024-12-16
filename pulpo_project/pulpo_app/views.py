@@ -20,9 +20,6 @@ from django.db.models import Q
 from pulpo_app.utils.tmdb_helper import buscar_y_guardar_contenido_tmdb
 from random import sample
 
-class TipoListView(ListView):
-    model = Tipo
-
 class ContenidoDetailView(DetailView):
     model = Contenido
 
