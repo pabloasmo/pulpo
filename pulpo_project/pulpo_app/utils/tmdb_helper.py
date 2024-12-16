@@ -60,9 +60,9 @@ def buscar_y_guardar_contenido_tmdb(busqueda):
             continue
 
         # Verificar si ya existe
-        # contenido_existente = Contenido.objects.filter(titulo__iexact=titulo).first()
-        # if contenido_existente:
-        #     continue
+        contenido_existente = Contenido.objects.filter(titulo__iexact=titulo).first()
+        if contenido_existente:
+            continue
 
         # Crear o asociar objetos relacionados
         tipo, _ = Tipo.objects.get_or_create(nombre="Película")
@@ -92,9 +92,9 @@ def buscar_y_guardar_contenido_tmdb(busqueda):
             continue
 
         # Verificar si ya existe
-        # contenido_existente = Contenido.objects.filter(titulo__iexact=titulo).first()
-        # if contenido_existente:
-        #     continue
+        contenido_existente = Contenido.objects.filter(titulo__iexact=titulo).first()
+        if contenido_existente:
+            continue
 
         # Crear o asociar objetos relacionados
         tipo, _ = Tipo.objects.get_or_create(nombre="Serie")
