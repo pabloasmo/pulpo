@@ -90,10 +90,7 @@ class ExplorarView(ListView):
                         Q(descripcion__icontains=search_query)
                     )
         else:
-            # Mostrar 5 registros aleatorios si no se introduce nada
-            total_contenidos = Contenido.objects.count()
-            random_ids = sample(range(1, total_contenidos + 1), min(total_contenidos, 10))
-            queryset = Contenido.objects.filter(pk__in=random_ids)
+            queryset = queryset.order_by('?')[:10]  # Get 10 random items if no search query is provided
 
         return queryset
 
@@ -119,14 +116,18 @@ class CustomLoginView(LoginView):
 @login_required
 def profile_view(request):
     if request.method == 'POST':
+        # Manejo de eliminación de contenido
         if 'delete' in request.POST:
-            lista_usuario_id = request.POST.get('lista_usuario_id')
+            contenido_id = request.POST.get('contenido_id')
             try:
-                lista_usuario = ListaUsuario.objects.get(id=lista_usuario_id, usuario=request.user)
+                contenido = Contenido.objects.get(id=contenido_id)
+                lista_usuario = ListaUsuario.objects.get(usuario=request.user, contenido=contenido)
                 lista_usuario.delete()
-                messages.success(request, 'Contenido eliminado correctamente.')
-            except ListaUsuario.DoesNotExist:
+                messages.success(request, 'Contenido eliminado de tu lista correctamente.')
+            except (Contenido.DoesNotExist, ListaUsuario.DoesNotExist):
                 messages.error(request, 'El contenido no se encontró en tu lista.')
+
+        # Manejo de agregar o actualizar contenido
         else:
             contenido_id = request.POST.get('contenido_id')
             if contenido_id:
@@ -135,16 +136,18 @@ def profile_view(request):
                 except Contenido.DoesNotExist:
                     raise Http404("El contenido seleccionado no existe.")
                 
-                estado = request.POST.get('estado', 'PL')
+                estado = request.POST.get('estado', 'PL')  # Estado por defecto 'PL'
                 puntuacion = request.POST.get('puntuacion')
                 progreso = request.POST.get('progreso')
 
+                # Obtener o crear un registro de lista_usuario
                 lista_usuario, created = ListaUsuario.objects.get_or_create(
                     usuario=request.user,
                     contenido=contenido,
                     defaults={'estado': estado}
                 )
                 if not created:
+                    # Si el contenido ya está en la lista del usuario, actualizamos los campos
                     lista_usuario.estado = estado
                     lista_usuario.puntuacion = puntuacion if puntuacion else None
                     lista_usuario.progreso = progreso if progreso else None
@@ -154,6 +157,7 @@ def profile_view(request):
 
         return redirect('profile')
 
+    # Obtener todos los contenidos y la lista de usuario
     contenidos = Contenido.objects.all()
     lista_usuario = ListaUsuario.objects.filter(usuario=request.user)
 

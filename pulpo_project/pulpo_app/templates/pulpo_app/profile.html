@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Perfil - {{ user.username }}{% endblock %}
+{% block title %}Perfil de {{ user.username }} - {% endblock %}
 
 {% block content %}
 <div class="container">
@@ -16,31 +16,6 @@
         </form>
     </div>
 
-    <div class="card add-content-card">
-        <h3>Agregar contenido</h3>
-        <form method="post" action="" class="add-content-form">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="contenido_id">Seleccionar contenido:</label>
-                <select id="contenido_id" name="contenido_id" required>
-                    {% for contenido in contenidos %}
-                    <option value="{{ contenido.id }}">{{ contenido.titulo }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="estado">Estado:</label>
-                <select id="estado" name="estado">
-                    <option value="PL">Planeado</option>
-                    <option value="WT">En progreso</option>
-                    <option value="CM">Completado</option>
-                    <option value="AB">Abandonado</option>
-                </select>
-            </div>
-            <button type="submit" class="btn-add-content">Agregar contenido</button>
-        </form>
-    </div>
-
     <div class="card user-content-card">
         <h3>Mis contenidos</h3>
         {% if lista_usuario %}
@@ -51,34 +26,46 @@
                         <a href="/contenido/{{ item.contenido.id }}" class="content-title">
                             {{ item.contenido.titulo }}
                         </a>
-                        {% if item.puntuacion %}
+                        <!-- {% if item.puntuacion %}
                             <span class="content-rating">Puntuación: {{ item.puntuacion }}</span>
                         {% endif %}
-                    </div>
+                        <span class="content-status">Estado: 
+                            {% if item.estado == "PL" %}
+                                Planeado
+                            {% elif item.estado == "WT" %}
+                                En progreso
+                            {% elif item.estado == "CM" %}
+                                Completado
+                            {% elif item.estado == "AB" %}
+                                Abandonado
+                            {% endif %}
+                        </span>
+                    </div> -->
                     <div class="content-actions">
-                        <form method="post" action="" class="content-status-form">
+                        <form method="post" action="{% url 'profile' %}">
                             {% csrf_token %}
-                            <input type="hidden" name="lista_usuario_id" value="{{ item.id }}">
-                            <div class="form-group">
-                                <label for="estado_{{ item.id }}">Estado:</label>
-                                <select id="estado_{{ item.id }}" name="estado">
-                                    <option value="PL" {% if item.estado == "PL" %}selected{% endif %}>Planeado</option>
-                                    <option value="WT" {% if item.estado == "WT" %}selected{% endif %}>En progreso</option>
-                                    <option value="CM" {% if item.estado == "CM" %}selected{% endif %}>Completado</option>
-                                    <option value="AB" {% if item.estado == "AB" %}selected{% endif %}>Abandonado</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn-save-changes">Guardar cambios</button>
-                                <button type="submit" name="delete" value="true" class="btn-delete">Eliminar</button>
-                            </div>
+                            <input type="hidden" name="contenido_id" value="{{ item.contenido.id }}">
+                            <label for="estado_{{ item.id }}">Estado:</label>
+                            <select id="estado_{{ item.id }}" name="estado">
+                                <option value="PL" {% if item.estado == "PL" %}selected{% endif %}>Planeado</option>
+                                <option value="WT" {% if item.estado == "WT" %}selected{% endif %}>En progreso</option>
+                                <option value="CM" {% if item.estado == "CM" %}selected{% endif %}>Completado</option>
+                                <option value="AB" {% if item.estado == "AB" %}selected{% endif %}>Abandonado</option>
+                            </select>
+                            <button type="submit">Guardar cambios</button>
+                        </form>      
+                        
+                        <form method="post" action="{% url 'profile' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="contenido_id" value="{{ item.contenido.id }}">
+                            <button type="submit" name="delete" class="btn-delete">Eliminar de mi lista</button>
                         </form>
                     </div>
                 </li>
                 {% endfor %}
             </ul>
         {% else %}
-            <p class="no-content-message">No has agregado contenidos aún.</p>
+            <p class="no-content-message">No has agregado contenidos aún. Utiliza la pestaña <a href="{% url 'explorar' %}">Explorar</a> para agregar contenido.</p>
         {% endif %}
     </div>
 </div>
@@ -97,18 +84,6 @@
         display: flex;
         justify-content: center;
         margin-top: 16px;
-    }
-
-    .add-content-form {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-    }
-
-    .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
     }
 
     .user-content-list {
@@ -146,9 +121,33 @@
         gap: 8px;
     }
 
+    .btn-edit {
+        background-color: #4CAF50;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-save-changes, .btn-delete {
+        background-color: #2196F3;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
     .btn-delete {
         background-color: #eb1e1e;
         margin-top: 8px;
+    }
+
+    .edit-form {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
     }
 
     .no-content-message {
@@ -170,3 +169,20 @@
     }
 </style>
 {% endblock %}
+
+{% block extra_js %}
+<script>
+    function toggleEditForm(contentId) {
+        const form = document.getElementById(`edit-form-${contentId}`);
+        
+        if (form.style.display === 'none' || form.style.display === '') {
+            form.style.display = 'block';
+        } else {
+            form.style.display = 'none';
+        }
+    }
+</script>
+{% endblock %}
+</body>
+
+

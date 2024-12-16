@@ -30,6 +30,16 @@ def buscar_y_guardar_contenido_tmdb(busqueda):
 
     tmdb_movie_endpoint = "https://api.themoviedb.org/3/search/movie"
     tmdb_tv_endpoint = "https://api.themoviedb.org/3/search/tv"
+    tmdb_genre_endpoint = "https://api.themoviedb.org/3/genre/movie/list"
+
+    # Obtener lista de géneros
+    params_genres = {"api_key": TMDB_API_KEY, "language": "es-ES"}
+    response_genres = requests.get(tmdb_genre_endpoint, params=params_genres)
+    if response_genres.status_code != 200:
+        return []
+
+    genres_data = response_genres.json().get("genres", [])
+    genre_dict = {genre['id']: genre['name'] for genre in genres_data}
 
     # Buscar películas
     params = {"api_key": TMDB_API_KEY, "language": "es-ES", "query": busqueda}
@@ -58,8 +68,10 @@ def buscar_y_guardar_contenido_tmdb(busqueda):
         tipo, _ = Tipo.objects.get_or_create(nombre="Película")
         generos = []
         for genero_id in result.get("genre_ids", []):
-            genero, _ = Genero.objects.get_or_create(nombre=f"Género {genero_id}")  # Ajustar según esquema de géneros
-            generos.append(genero)
+            genero_nombre = genre_dict.get(genero_id)
+            if genero_nombre:
+                genero, _ = Genero.objects.get_or_create(nombre=genero_nombre)
+                generos.append(genero)
 
         # Crear nuevo contenido
         nuevo_contenido = Contenido.objects.create(
@@ -88,8 +100,10 @@ def buscar_y_guardar_contenido_tmdb(busqueda):
         tipo, _ = Tipo.objects.get_or_create(nombre="Serie")
         generos = []
         for genero_id in result.get("genre_ids", []):
-            genero, _ = Genero.objects.get_or_create(nombre=f"Género {genero_id}")  # Ajustar según esquema de géneros
-            generos.append(genero)
+            genero_nombre = genre_dict.get(genero_id)
+            if genero_nombre:
+                genero, _ = Genero.objects.get_or_create(nombre=genero_nombre)
+                generos.append(genero)
 
         # Crear nuevo contenido
         nuevo_contenido = Contenido.objects.create(
@@ -104,3 +118,4 @@ def buscar_y_guardar_contenido_tmdb(busqueda):
         nuevos_contenidos.append(nuevo_contenido)
 
     return nuevos_contenidos
+
