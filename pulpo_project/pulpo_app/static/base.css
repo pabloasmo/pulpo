@@ -58,7 +58,6 @@ header {
     align-items: center;
     position: sticky;
     white-space: normal;
-    overflow: hidden;
     text-overflow: ellipsis;
     overflow-wrap: break-word;
     top: 0;
@@ -83,9 +82,65 @@ header a:hover {
 
 nav {
     display: flex;
+    justify-content: space-between; /* Asegura que los elementos se distribuyan entre los extremos */
+    align-items: center;
+    width: 100%;
+    padding: 0 20px; /* Agrega un pequeño espaciado en los laterales para que no quede pegado */
+}
+
+.left-links {
+    display: flex;
     gap: 16px;
-    margin: 0;
-    padding: 0;
+    margin-left: 20px; /* Agrega margen izquierdo para separar los enlaces del logo */
+}
+
+.profile-dropdown {
+    position: relative;
+}
+
+.profile-dropdown .dropdown-btn {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+}
+
+.profile-dropdown .dropdown-btn:hover {
+    text-decoration: underline;
+}
+
+.profile-dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0; /* Asegura que se alinee al lado derecho del botón */
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 10;
+    width: 200px; /* Define un ancho fijo para que no se corte */
+    top: 100%; /* Asegura que el dropdown se muestre justo debajo del botón */
+}
+
+.profile-dropdown .dropdown-content a {
+    color: #333;
+    text-decoration: none;
+    display: block;
+    padding: 8px 16px;
+    transition: background-color 0.2s;
+}
+
+.profile-dropdown .dropdown-content a:hover {
+    background-color: #f4f4f4;
+}
+
+.profile-dropdown:hover .dropdown-content {
+    display: block;
 }
 
 main {
@@ -282,6 +337,9 @@ main {
     transition: 0.25s;
     position: relative;
     overflow: hidden;
+    background-image: url('/static/loading-placeholder.png');
+    background-size: cover;
+    background-position: center;
 }
 
 .content-card img {

@@ -17,6 +17,8 @@ from rest_framework import viewsets
 from .models import Tipo, Genero, Autor, Contenido, ListaUsuario, Comentario
 from .serializers import TipoSerializer, GeneroSerializer, AutorSerializer, ContenidoSerializer, ListaUsuarioSerializer, ComentarioSerializer
 from django.db.models import Q
+from pulpo_app.utils.tmdb_helper import buscar_y_guardar_contenido_tmdb
+from random import sample
 
 class TipoListView(ListView):
     model = Tipo
@@ -68,12 +70,31 @@ class ExplorarView(ListView):
     def get_queryset(self):
         queryset = Contenido.objects.all()
         search_query = self.request.GET.get('q', '')
-        
+
         if search_query:
+            # Validar que la búsqueda tenga al menos 3 caracteres
+            if len(search_query) < 3:
+                return queryset.none()  # Retorna un queryset vacío si la búsqueda es demasiado corta
+
             queryset = queryset.filter(
                 Q(titulo__icontains=search_query) |
                 Q(descripcion__icontains=search_query)
             )
+
+            # Si no hay resultados locales, buscar en TMDB
+            if not queryset.exists():
+                nuevos_contenidos = buscar_y_guardar_contenido_tmdb(search_query)
+                if nuevos_contenidos:
+                    queryset = Contenido.objects.filter(
+                        Q(titulo__icontains=search_query) |
+                        Q(descripcion__icontains=search_query)
+                    )
+        else:
+            # Mostrar 5 registros aleatorios si no se introduce nada
+            total_contenidos = Contenido.objects.count()
+            random_ids = sample(range(1, total_contenidos + 1), min(total_contenidos, 10))
+            queryset = Contenido.objects.filter(pk__in=random_ids)
+
         return queryset
 
 @redirect_if_logged_in

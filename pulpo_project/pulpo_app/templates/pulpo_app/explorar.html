@@ -10,16 +10,26 @@
     <button type="submit">Buscar</button>
 </form>
 
-<div class="content-slider">
-    {% for contenido in object_list %}
-    <a href="/contenido/{{ contenido.pk }}">
-        <div class="content-card">
-            <div class="title">{{ contenido.titulo }}</div>
-            <img src="{{ contenido.imagen }}" alt="{{ contenido.titulo }}" />
-        </div>
-    </a>
-    {% endfor %}
-</div>
+{% if request.GET.q and object_list|length == 0 %}
+    {% if request.GET.q|length < 3 %}
+        <p>La búsqueda debe tener al menos 3 letras.</p>
+    {% else %}
+        <p>No se encontraron resultados para "{{ request.GET.q }}".</p>
+    {% endif %}
+{% endif %}
+<!-- Mostrar resultados -->
+{% if object_list %}
+    <div class="content-slider">
+        {% for contenido in object_list %}
+        <a href="/contenido/{{ contenido.pk }}">
+            <div class="content-card">
+                <div class="title">{{ contenido.titulo }}</div>
+                <img src="{{ contenido.imagen }}" alt="{{ contenido.titulo }}" />
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+{% endif %}
 
 {% if user.is_staff %}
 <a href="{% url 'contenido_add' %}">Añadir contenido</a>
