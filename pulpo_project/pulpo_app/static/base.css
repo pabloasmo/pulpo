@@ -378,6 +378,42 @@ main {
     opacity: 1;
 }
 
+.content-desc {
+    max-width: 80%;
+}
+
+.content-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 80%;
+}
+
+.content-info img {
+    max-width: 256px;
+    object-fit: cover;
+    object-position: center;
+    margin: 8px;
+    border-radius: 5px;
+    box-shadow: #000 2px 2px 2px;
+    transition: 0.25s;
+}
+
+.content-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: left;
+    text-align: left;
+    padding: 8px;
+}
+
+.content-text h2 {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
 
 /* a {
     color: #921eb3;

@@ -3,33 +3,77 @@
 {% block title %}{{ object.titulo }} - {% endblock %}
 
 {% block content %}
-<h2>{{ object.titulo }}</h2>
-<p>{{ object.descripcion }}</p>
-<ul>
-    <li><p><b>Fecha de estreno:</b> {{ object.fecha_estreno }}</p></li>
-    <li><p><b>Tipo:</b> {{ object.tipo }}</p></li>
-    <li><p><b>Géneros:</b><ul>{% for genero in object.generos.all %}<li>{{ genero }}</li>{% endfor %}</ul></p></li>
-</ul>
+<div class="content-info">
+    {% if object.imagen %}
+        <div class="content-image">
+        <img src="{{ object.imagen }}" alt="{{ object.titulo }}">
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'profile' %}">
+                {% csrf_token %}
+                <input type="hidden" name="contenido_id" value="{{ object.id }}">
+                <label for="estado">Estado:</label>
+                <select id="estado" name="estado">
+                    <option value="PL">Planeado</option>
+                    <option value="WT">En progreso</option>
+                    <option value="CM">Completado</option>
+                    <option value="AB">Abandonado</option>
+                </select>
+                <button type="submit">Agregar a mi lista</button>
+            </form>
+        {% endif %}
+    {% endif %}
+    </div>
+    <div class="content-text">
+        <h2>{{ object.titulo }}</h2>
+        <p class="content-desc">{{ object.descripcion }}</p>
+        <ul>
+            <li><p><b>Fecha de estreno:</b> {{ object.fecha_estreno }}</p></li>
+            <li><p><b>Tipo:</b> {{ object.tipo }}</p></li>
+            <li><p><b>Géneros:</b><ul>{% for genero in object.generos.all %}<li>{{ genero }}</li>{% endfor %}</ul></p></li>
+        </ul>
+        {% if not object.imagen %}
+            {% if user.is_authenticated %}
+            <form method="post" action="{% url 'profile' %}">
+                {% csrf_token %}
+                <input type="hidden" name="contenido_id" value="{{ object.id }}">
+                <label for="estado">Estado:</label>
+                <select id="estado" name="estado">
+                    <option value="PL">Planeado</option>
+                    <option value="WT">En progreso</option>
+                    <option value="CM">Completado</option>
+                    <option value="AB">Abandonado</option>
+                </select>
+                <button type="submit">Agregar a mi lista</button>
+            </form>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
 
 <a href="{% url 'comunidad' pk=object.pk %}">Ver comentarios y agregar comentario</a>
-
-{% if user.is_authenticated %}
-    <form method="post" action="{% url 'profile' %}">
-        {% csrf_token %}
-        <input type="hidden" name="contenido_id" value="{{ object.id }}">
-        <label for="estado">Estado:</label>
-        <select id="estado" name="estado">
-            <option value="PL">Planeado</option>
-            <option value="WT">En progreso</option>
-            <option value="CM">Completado</option>
-            <option value="AB">Abandonado</option>
-        </select>
-        <button type="submit">Agregar a mi lista</button>
-    </form>
-{% endif %}
 
 {% if user.is_staff %}
     <button onclick="location.href='{% url 'contenido_update' object.pk %}'">Editar</button>
     <button onclick="location.href='{% url 'contenido_delete' object.pk %}'">Eliminar</button>
 {% endif %}
+
+<h2>Comentarios</h2>
+
+{% for comentario in object.comentarios.all %}
+    <div class="comentario">
+        <p><b>{{ comentario.usuario.username }}:</b></p>
+        <p>{{ comentario.comentario }}</p>
+        <p><small>Publicado el {{ comentario.fecha_creacion }}</small></p>
+
+        {% if comentario.usuario == request.user %}
+        <form action="{% url 'eliminar_comentario' comentario.pk %}" method="post">
+          {% csrf_token %}
+          <button type="submit">Eliminar comentario</button>
+        </form>
+      {% endif %}
+    </div>
+    <hr>
+{% empty %}
+    <p>No hay comentarios aún.</p>
+{% endfor %}
 {% endblock %}

@@ -10,6 +10,13 @@
         <p><b>{{ comentario.usuario.username }}:</b></p>
         <p>{{ comentario.comentario }}</p>
         <p><small>Publicado el {{ comentario.fecha_creacion }}</small></p>
+
+        {% if comentario.usuario == request.user %}
+        <form action="{% url 'eliminar_comentario' comentario.pk %}" method="post">
+          {% csrf_token %}
+          <button type="submit">Eliminar comentario</button>
+        </form>
+      {% endif %}
     </div>
     {% empty %}
     <p>No hay comentarios aún. ¡Sé el primero en comentar!</p>
