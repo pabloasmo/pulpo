@@ -90,7 +90,7 @@ class ExplorarView(ListView):
                         Q(descripcion__icontains=search_query)
                     )
         else:
-            queryset = queryset.order_by('?')[:10]  # Get 10 random items if no search query is provided
+            queryset = queryset.order_by('?')[:18]  # Get 10 random items if no search query is provided
 
         return queryset
 
