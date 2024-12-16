@@ -431,6 +431,10 @@ a:hover, a:focus, a:active {
     color: #921eb3;
 } */
 
+.comentario {
+    max-width: 654px;
+}
+
 input, textarea, select {
     border: 1px solid #333;
     border-radius: 5px;
