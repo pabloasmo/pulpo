@@ -35,13 +35,13 @@ class Autor(models.Model):
         return self.nombre
 
 class Contenido(models.Model):
-    titulo = models.CharField(max_length=100)
+    titulo = models.CharField(max_length=500)
     id_externo = models.CharField(max_length=100, null=True, blank=True)
     descripcion = models.TextField(null=True, blank=True)
     fecha_estreno = models.DateField(null=True, blank=True)
     tipo = models.ForeignKey(Tipo, on_delete=models.CASCADE)
-    generos = models.ManyToManyField('Genero', related_name='contenidos', blank=True)
-    autores = models.ManyToManyField('Autor', related_name='contenidos', blank=True)
+    generos = models.ManyToManyField('Genero', related_name='contenidos', blank=True, max_length=500)
+    autores = models.ManyToManyField('Autor', related_name='contenidos', blank=True, max_length=500)
     imagen = models.URLField(null=True, blank=True)
 
     class Meta:
