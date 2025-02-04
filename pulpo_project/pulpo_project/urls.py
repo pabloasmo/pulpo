@@ -15,7 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
+
+from wagtail import urls as wagtail_urls
+from wagtail.admin import urls as wagtailadmin_urls
+from wagtail.documents import urls as wagtaildocs_urls
+
 from rest_framework import routers
 
 from tutorial.quickstart import views
@@ -25,7 +30,10 @@ router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 
 urlpatterns = [
-    path('', include('pulpo_app.urls')),
-    path('admin/', admin.site.urls),
+    path('django-admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('admin/', include(wagtailadmin_urls)),
+    path('documents/', include(wagtaildocs_urls)),
+    path('', include('pulpo_app.urls')),
+    path('', include(wagtail_urls))
 ]
