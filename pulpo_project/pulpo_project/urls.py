@@ -19,7 +19,7 @@ from django.urls import include, path, re_path
 
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
-from wagtail.documents import urls as wagtaildocs_urls
+# from wagtail.documents import urls as wagtaildocs_urls
 
 from rest_framework import routers
 
@@ -31,9 +31,8 @@ router.register(r'groups', views.GroupViewSet)
 
 urlpatterns = [
     path('django-admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-    path('admin/', include(wagtailadmin_urls)),
-    path('documents/', include(wagtaildocs_urls)),
-    path('', include('pulpo_app.urls')),
-    path('', include(wagtail_urls))
+    # path('api/', include(router.urls)),
+    path('cms/admin/', include(wagtailadmin_urls)),
+    path('cms/', include(wagtail_urls)),
+    path('', include('pulpo_app.urls'))
 ]

@@ -1,0 +1,10 @@
+django
+django-extensions
+djangorestframework
+django-auth-ldap
+fontawesomefree
+PyMoe
+python-dotenv
+gunicorn
+requests
+wagtail
