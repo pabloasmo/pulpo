@@ -15,7 +15,6 @@ def user_add_to_bloggers(sender, request, user, **kwargs):
 
     if ldap_user:
         ldap_groups = ldap_user.ldap_user.group_names
-        print(ldap_groups)
         if "bloggers" in ldap_groups:
             bloggers_group, created = Group.objects.get_or_create(name="Bloggers")
             user.groups.add(bloggers_group)
