@@ -21,8 +21,8 @@ def user_add_to_bloggers(sender, request, user, **kwargs):
             user.save()
             send_mail(
                 subject="Has sido registrado en el grupo bloggers",
-                message="Se ha agregado tu usuario al grupo Bloggers en el CMS de la página. Felicidades.",
+                message="Se ha agregado tu usuario al grupo Bloggers en el CMS de la página.",
                 from_email=os.getenv("EMAIL_HOST_USER"),
-                recipient_list=[user.email],
+                recipient_list=[user.email, os.getenv("EMAIL_HOST_USER")],
                 fail_silently=False
             )

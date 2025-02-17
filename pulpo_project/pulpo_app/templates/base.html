@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}{% endblock %}Pulpo</title>
     <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
@@ -17,9 +17,10 @@
 <body>
     <header>
         {% block header %}
-        <h1><a href="/"><i class="fab fa-octopus-deploy"></i></a></h1>
+        <h1><i class="fab fa-octopus-deploy"></i></h1>
         <nav>
             <div class="left-links">
+                <a href="/"><i class="fa-solid fa-house"></i> Inicio</a>
                 <a href="{% url 'explorar' %}"><i class="fa-solid fa-compass"></i> Explorar</a>
                 <a href="{% url 'comunidad' %}"><i class="fa-solid fa-users"></i> Comunidad</a>
             </div>
