@@ -77,10 +77,10 @@ class ListaUsuario(models.Model):
 
         verbose_name = 'Lista de usuario'
         verbose_name_plural = 'Listas de usuarios'
-    
+
     def __str__(self):
         return f'{self.usuario} - {self.contenido}'
-    
+
 class Comentario(models.Model):
     contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='comentarios')
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
