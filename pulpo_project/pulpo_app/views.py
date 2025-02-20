@@ -9,6 +9,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.backends import ModelBackend
+from allauth.socialaccount.models import SocialAccount
 from pulpo_app.models import Tipo, Contenido, ListaUsuario, Comentario
 from pulpo_app.forms import ComentarioForm
 from pulpo_app.decorators import redirect_if_logged_in
@@ -97,6 +99,11 @@ def register_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            
+            # Forzar el uso de ModelBackend para autenticar al usuario
+            backend = ModelBackend()
+            user.backend = f"{backend.__module__}.{backend.__class__.__name__}"
+            
             login(request, user)
             messages.success(request, 'Cuenta creada correctamente. Inicia sesión.')
             return redirect('profile')

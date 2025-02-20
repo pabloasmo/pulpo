@@ -13,9 +13,10 @@ router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 
 urlpatterns = [
-    path('django-admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('cms/admin/', include(wagtailadmin_urls)),
     path('cms/', include(wagtail_urls)),
-    path('', include('pulpo_app.urls'))
+    path('accounts/', include('allauth.urls')),
+    path('', include('pulpo_app.urls')),
 ]

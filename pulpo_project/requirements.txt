@@ -9,3 +9,4 @@ gunicorn
 requests
 wagtail
 psycopg2-binary
+django-allauth
