@@ -10,3 +10,5 @@ requests
 wagtail
 psycopg2-binary
 django-allauth
+pyjwt
+cryptography
